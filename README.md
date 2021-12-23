@@ -27,7 +27,7 @@ git clone https://github.com/Shall-We-Dance/AlphaFold-DB.git
 
 2. Install
 
-(1) If you are new to AlphaFold
+Get the alphafold code.
 
 ```
 git clone https://github.com/deepmind/alphafold.git
@@ -40,3 +40,4 @@ cp -r -f <AlphaFold-DB_dir> <alphafold_dir>
 ```
 
 Setup the alphafold following the manual provided by alphafold.
+
