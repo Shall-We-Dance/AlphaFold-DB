@@ -4,9 +4,7 @@ Fix Database problem for [AlphaFold](https://github.com/deepmind/alphafold).
 
 While using AlphaFold to make prediction, the pipeline would be failed sometimes, since the databases used to generate the matrix are old, as they used in those papers.
 
-For example:
-
-["HHblits fail"](https://github.com/deepmind/alphafold/issues/257#issuecomment-986183590)
+For example: ["HHblits fail"](https://github.com/deepmind/alphafold/issues/257#issuecomment-986183590)
 
 ## What's the difference
 
