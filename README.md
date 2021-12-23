@@ -41,3 +41,5 @@ cp -r -f <AlphaFold-DB_dir> <alphafold_dir>
 
 Setup the alphafold following the manual provided by alphafold.
 
+  If you already installed the alphafold
+
