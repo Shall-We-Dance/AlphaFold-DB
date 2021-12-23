@@ -106,7 +106,8 @@ def main(argv):
 
   # Path to the MGnify database for use by JackHMMER.
   mgnify_database_path = os.path.join(
-      FLAGS.data_dir, 'mgnify', 'mgy_clusters_2018_12.fa')
+      FLAGS.data_dir, 'mgnify', 'mgy_clusters.fa')
+  #### CHANGED ####
 
   # Path to the BFD database for use by HHblits.
   bfd_database_path = os.path.join(
@@ -120,6 +121,7 @@ def main(argv):
   # Path to the Uniclust30 database for use by HHblits.
   uniclust30_database_path = os.path.join(
       FLAGS.data_dir, 'uniclust30', 'uniclust30_2021_03', 'UniRef30_2021_03')
+  #### CHANGED ####
 
   # Path to the PDB70 database for use by HHsearch.
   pdb70_database_path = os.path.join(FLAGS.data_dir, 'pdb70_211117', 'pdb70')
