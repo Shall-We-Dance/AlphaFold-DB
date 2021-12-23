@@ -41,5 +41,6 @@ cp -r -f <AlphaFold-DB_dir> <alphafold_dir>
 
 Setup the alphafold following the manual provided by alphafold.
 
-  If you already installed the alphafold
+3. If you already installed the alphafold
 
+Just redownload the updated databases using `script/download_all_data.sh`
