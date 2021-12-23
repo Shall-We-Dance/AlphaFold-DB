@@ -6,8 +6,8 @@ Fix Database problem for AlphaFold.
 1. Clone this repository
 
 ```
-#git clone
-git clone
+https://github.com/Shall-We-Dance/AlphaFold-DB.git
+cd AlphaFold-DB
 ```
 
 2. 
