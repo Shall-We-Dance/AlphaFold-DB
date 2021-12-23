@@ -22,11 +22,12 @@ For example: ["HHblits fail"](https://github.com/deepmind/alphafold/issues/257#i
 1. Clone this repository
 
 ```
-
 git clone https://github.com/Shall-We-Dance/AlphaFold-DB.git
 ```
 
-2. If you are new to AlphaFold
+2. Install
+
+(1) If you are new to AlphaFold
 
 ```
 git clone https://github.com/deepmind/alphafold.git
