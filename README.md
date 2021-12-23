@@ -19,13 +19,13 @@ For example: ["HHblits fail"](https://github.com/deepmind/alphafold/issues/257#i
 
 ## How to use
 
-1. Clone this repository
+1. **Clone this repository**
 
 ```
 git clone https://github.com/Shall-We-Dance/AlphaFold-DB.git
 ```
 
-2. Install
+2. **Install**
 
 Get the alphafold code.
 
@@ -41,7 +41,7 @@ cp -r -f <AlphaFold-DB_dir> <alphafold_dir>
 
 Setup the alphafold following the manual provided by alphafold.
 
-3. If you already installed the alphafold
+3. **If you already installed the alphafold**
 
 Just redownload the updated databases using `script/update.sh`.
 
@@ -51,7 +51,7 @@ scripts/update.sh <DOWNLOAD_DIR>
 
 **📒 Note: The download directory <DOWNLOAD_DIR> should not be a subdirectory in the AlphaFold repository directory. If it is, the Docker build will be slow as the large databases will be copied during the image creation.**
 
-4. The structure of `<DOWNLOAD_DIR>`
+4. **The structure of `<DOWNLOAD_DIR>`**
 
 Once the script has finished, you should have the following directory structure:
 
