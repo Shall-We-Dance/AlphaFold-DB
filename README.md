@@ -43,4 +43,11 @@ Setup the alphafold following the manual provided by alphafold.
 
 3. If you already installed the alphafold
 
-Just redownload the updated databases using `script/download_all_data.sh`
+Just redownload the updated databases using `script/update.sh`.
+
+```
+scripts/update.sh <DOWNLOAD_DIR>
+```
+
+**📒 Note: The download directory <DOWNLOAD_DIR> should not be a subdirectory in the AlphaFold repository directory. If it is, the Docker build will be slow as the large databases will be copied during the image creation.**
+
