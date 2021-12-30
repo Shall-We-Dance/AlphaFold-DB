@@ -1,5 +1,9 @@
 # AlphaFold-DB
 
+To use this version for free, visit [AlphaFold@LNSGroup](http://neuralmachine.cc:8080)
+
+---
+
 Fix Database problem for [AlphaFold](https://github.com/deepmind/alphafold).
 
 While using AlphaFold to make prediction, the pipeline would be failed sometimes, since the databases used to generate the matrix are old, as they used in those papers.
