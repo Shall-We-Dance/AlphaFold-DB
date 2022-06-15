@@ -59,6 +59,8 @@ scripts/update.sh <DOWNLOAD_DIR>
 
 Once the script has finished, you should have the following directory structure:
 
+(This size info is updated at Dec 23, 2021. Size may vary for the latest version.)
+
 ```
 $DOWNLOAD_DIR/                             # Total: ~ 2.4 TB (download: ~510 GB)
     bfd/                                   # ~ 1.7 TB (download: 271.6 GB)
