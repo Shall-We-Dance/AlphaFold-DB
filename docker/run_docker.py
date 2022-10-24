@@ -28,6 +28,14 @@ from docker import types
 
 flags.DEFINE_bool(
     'use_gpu', True, 'Enable NVIDIA runtime to run with GPUs.')
+flags.DEFINE_boolean(
+    'run_relax', True,
+    'Whether to run the final relaxation step on the predicted models. Turning '
+    'relax off might result in predictions with distracting stereochemical '
+    'violations but might help in case you are having issues with the '
+    'relaxation stage.')
+flags.DEFINE_bool(
+    'enable_gpu_relax', True, 'Run relax on GPU if GPU is enabled.')
 flags.DEFINE_string(
     'gpu_devices', 'all',
     'Comma separated list of devices to pass to NVIDIA_VISIBLE_DEVICES.')
@@ -37,12 +45,6 @@ flags.DEFINE_list(
     'multiple sequences, then it will be folded as a multimer. Paths should be '
     'separated by commas. All FASTA paths must have a unique basename as the '
     'basename is used to name the output directories for each prediction.')
-flags.DEFINE_list(
-    'is_prokaryote_list', None, 'Optional for multimer system, not used by the '
-    'single chain system. This list should contain a boolean for each fasta '
-    'specifying true where the target complex is from a prokaryote, and false '
-    'where it is not, or where the origin is unknown. These values determine '
-    'the pairing method for the MSA.')
 flags.DEFINE_string(
     'output_dir', '/tmp/alphafold',
     'Path to a directory that will store the results.')
@@ -65,6 +67,11 @@ flags.DEFINE_enum(
     ['monomer', 'monomer_casp14', 'monomer_ptm', 'multimer'],
     'Choose preset model configuration - the monomer model, the monomer model '
     'with extra ensembling, monomer model with pTM head, or multimer model')
+flags.DEFINE_integer('num_multimer_predictions_per_model', 5, 'How many '
+                     'predictions (each with a different random seed) will be '
+                     'generated per model. E.g. if this is 2 and there are 5 '
+                     'models then there will be 10 predictions per input. '
+                     'Note: this FLAG only applies if model_preset=multimer')
 flags.DEFINE_boolean(
     'benchmark', False,
     'Run multiple JAX model evaluations to obtain a timing that excludes the '
@@ -72,8 +79,17 @@ flags.DEFINE_boolean(
     'for inferencing many proteins.')
 flags.DEFINE_boolean(
     'use_precomputed_msas', False,
-    'Whether to read MSAs that have been written to disk. WARNING: This will '
-    'not check if the sequence, database or configuration have changed.')
+    'Whether to read MSAs that have been written to disk instead of running '
+    'the MSA tools. The MSA files are looked up in the output directory, so it '
+    'must stay the same between multiple runs that are to reuse the MSAs. '
+    'WARNING: This will not check if the sequence, database or configuration '
+    'have changed.')
+flags.DEFINE_string(
+    'docker_user', f'{os.geteuid()}:{os.getegid()}',
+    'UID:GID with which to run the Docker container. The output directories '
+    'will be owned by this user:group. By default, this is the current user. '
+    'Valid options are: uid or uid:gid, non-numeric values are not recognised '
+    'by Docker unless that user has been created within the container.')
 
 FLAGS = flags.FLAGS
 
@@ -81,12 +97,23 @@ _ROOT_MOUNT_DIRECTORY = '/mnt/'
 
 
 def _create_mount(mount_name: str, path: str) -> Tuple[types.Mount, str]:
-  path = os.path.abspath(path)
-  source_path = os.path.dirname(path)
-  target_path = os.path.join(_ROOT_MOUNT_DIRECTORY, mount_name)
+  """Create a mount point for each file and directory used by the model."""
+  path = pathlib.Path(path).absolute()
+  target_path = pathlib.Path(_ROOT_MOUNT_DIRECTORY, mount_name)
+
+  if path.is_dir():
+    source_path = path
+    mounted_path = target_path
+  else:
+    source_path = path.parent
+    mounted_path = pathlib.Path(target_path, path.name)
+  if not source_path.exists():
+    raise ValueError(f'Failed to find source directory "{source_path}" to '
+                     'mount in Docker container.')
   logging.info('Mounting %s -> %s', source_path, target_path)
-  mount = types.Mount(target_path, source_path, type='bind', read_only=True)
-  return mount, os.path.join(target_path, os.path.basename(path))
+  mount = types.Mount(target=str(target_path), source=str(source_path),
+                      type='bind', read_only=True)
+  return mount, str(mounted_path)
 
 
 def main(argv):
@@ -107,7 +134,6 @@ def main(argv):
   # Path to the MGnify database for use by JackHMMER.
   mgnify_database_path = os.path.join(
       FLAGS.data_dir, 'mgnify', 'mgy_clusters.fa')
-  #### CHANGED ####
 
   # Path to the BFD database for use by HHblits.
   bfd_database_path = os.path.join(
@@ -120,11 +146,10 @@ def main(argv):
 
   # Path to the Uniclust30 database for use by HHblits.
   uniclust30_database_path = os.path.join(
-      FLAGS.data_dir, 'uniclust30', 'uniclust30_2021_03', 'UniRef30_2021_03')
-  #### CHANGED ####
+      FLAGS.data_dir, 'uniclust30', 'uniclust30','UniRef30_2021_03')
 
   # Path to the PDB70 database for use by HHsearch.
-  pdb70_database_path = os.path.join(FLAGS.data_dir, 'pdb70_211117', 'pdb70')
+  pdb70_database_path = os.path.join(FLAGS.data_dir, 'pdb70', 'pdb70')
 
   # Path to the PDB seqres database for use by hmmsearch.
   pdb_seqres_database_path = os.path.join(
@@ -186,6 +211,8 @@ def main(argv):
   output_target_path = os.path.join(_ROOT_MOUNT_DIRECTORY, 'output')
   mounts.append(types.Mount(output_target_path, FLAGS.output_dir, type='bind'))
 
+  use_gpu_relax = FLAGS.enable_gpu_relax and FLAGS.use_gpu
+
   command_args.extend([
       f'--output_dir={output_target_path}',
       f'--max_template_date={FLAGS.max_template_date}',
@@ -193,21 +220,25 @@ def main(argv):
       f'--model_preset={FLAGS.model_preset}',
       f'--benchmark={FLAGS.benchmark}',
       f'--use_precomputed_msas={FLAGS.use_precomputed_msas}',
+      f'--num_multimer_predictions_per_model={FLAGS.num_multimer_predictions_per_model}',
+      f'--run_relax={FLAGS.run_relax}',
+      f'--use_gpu_relax={use_gpu_relax}',
       '--logtostderr',
   ])
 
-  if FLAGS.is_prokaryote_list:
-    command_args.append(
-        f'--is_prokaryote_list={",".join(FLAGS.is_prokaryote_list)}')
-
   client = docker.from_env()
+  device_requests = [
+      docker.types.DeviceRequest(driver='nvidia', capabilities=[['gpu']])
+  ] if FLAGS.use_gpu else None
+
   container = client.containers.run(
       image=FLAGS.docker_image_name,
       command=command_args,
-      runtime='nvidia' if FLAGS.use_gpu else None,
+      device_requests=device_requests,
       remove=True,
       detach=True,
       mounts=mounts,
+      user=FLAGS.docker_user,
       environment={
           'NVIDIA_VISIBLE_DEVICES': FLAGS.gpu_devices,
           # The following flags allow us to make predictions on proteins that
