@@ -10,7 +10,7 @@ While using AlphaFold to make prediction, the pipeline would be failed sometimes
 
 For example: ["HHblits fail"](https://github.com/deepmind/alphafold/issues/257#issuecomment-986183590)
 
-## What's the difference
+## What's different
 
 1. Databases below are updated:
 
