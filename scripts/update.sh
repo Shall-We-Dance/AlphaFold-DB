@@ -18,6 +18,11 @@ DOWNLOAD_DIR="$1"
 
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 
+echo "Deleting old params..."
+rm -rf "${DOWNLOAD_DIR}/params"
+echo "Downloading params..."
+bash "${SCRIPT_DIR}/download_alphafold_params.sh" "${DOWNLOAD_DIR}"
+
 echo "Deleting old MGnify..."
 rm -rf "${DOWNLOAD_DIR}/mgnify"
 echo "Downloading MGnify..."
@@ -30,7 +35,9 @@ bash "${SCRIPT_DIR}/download_pdb70.sh" "${DOWNLOAD_DIR}"
 
 echo "Deleting old Uniclust30..."
 rm -rf "${DOWNLOAD_DIR}/uniclust30"
-echo "Downloading Uniclust30..."
-bash "${SCRIPT_DIR}/download_uniclust30.sh" "${DOWNLOAD_DIR}"
+echo "Deleting old Uniref30..."
+rm -rf "${DOWNLOAD_DIR}/uniref30"
+echo "Downloading Uniref30..."
+bash "${SCRIPT_DIR}/download_uniref30.sh" "${DOWNLOAD_DIR}"
 
 echo "Databases update successful."
