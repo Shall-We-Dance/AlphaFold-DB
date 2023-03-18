@@ -30,10 +30,13 @@ if ! command -v aria2c &> /dev/null ; then
 fi
 
 DOWNLOAD_DIR="$1"
-ROOT_DIR="${DOWNLOAD_DIR}/uniclust30/uniclust30/"
+ROOT_DIR="${DOWNLOAD_DIR}/uniref30/"
 # Update form 2018.08 version
 # http://wwwuser.gwdg.de/~compbiol/uniclust/2018_08/uniclust30_2018_08_hhsuite.tar.gz
-SOURCE_URL="http://gwdu111.gwdg.de/~compbiol/uniclust/2021_03/UniRef30_2021_03.tar.gz"
+# https://storage.googleapis.com/alphafold-databases/v2.3/UniRef30_2021_03.tar.gz
+# http://gwdu111.gwdg.de/~compbiol/uniclust/2021_03/UniRef30_2021_03.tar.gz
+# 03/18/23 Update from 2021_03 to 2022_02
+SOURCE_URL="https://gwdu111.gwdg.de/~compbiol/uniclust/2022_02/UniRef30_2022_02_hhsuite.tar.gz"
 BASENAME=$(basename "${SOURCE_URL}")
 
 mkdir --parents "${ROOT_DIR}"
