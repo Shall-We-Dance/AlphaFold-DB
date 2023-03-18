@@ -28,7 +28,9 @@ For example: ["HHblits fail"](https://github.com/deepmind/alphafold/issues/257#i
 1. **Clone this repository**
 
 ```sh
-git clone https://github.com/Shall-We-Dance/AlphaFold-DB.git
+wget https://github.com/Shall-We-Dance/AlphaFold-DB/archive/refs/tags/v2.3.1.zip
+unzip v2.3.1.zip
+rm v2.3.1.zip
 ```
 
 2. **Install**
@@ -38,6 +40,7 @@ Get the alphafold code.
 ```sh
 wget https://github.com/deepmind/alphafold/archive/refs/tags/v2.3.1.zip
 unzip v2.3.1.zip
+rm v2.3.1.zip
 ```
 
 Then, copy the script into it.
