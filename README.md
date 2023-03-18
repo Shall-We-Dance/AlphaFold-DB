@@ -25,7 +25,7 @@ For example: ["HHblits fail"](https://github.com/deepmind/alphafold/issues/257#i
 
 1. **Clone this repository**
 
-```
+```sh
 git clone https://github.com/Shall-We-Dance/AlphaFold-DB.git
 ```
 
@@ -40,7 +40,7 @@ unzip v2.3.1.zip
 
 Then, copy the script into it.
 
-```
+```sh
 cp -r -f <AlphaFold-DB_dir> <alphafold_dir>
 ```
 
@@ -50,7 +50,7 @@ Setup the alphafold following the manual provided by alphafold.
 
 Just redownload the updated databases using `script/update.sh`.
 
-```
+```sh
 scripts/update.sh <DOWNLOAD_DIR>
 ```
 
@@ -62,7 +62,7 @@ Once the script has finished, you should have the following directory structure:
 
 (This size info is updated at Dec 23, 2021. Size may vary for the latest version.)
 
-```
+```sh
 $DOWNLOAD_DIR/                             # Total: ~ 2.4 TB (download: ~510 GB)
     bfd/                                   # ~ 1.7 TB (download: 271.6 GB)
         # 6 files.
@@ -95,7 +95,7 @@ $DOWNLOAD_DIR/                             # Total: ~ 2.4 TB (download: ~510 GB)
 
 Which is different form the original one.
 
-```
+```sh
 $DOWNLOAD_DIR/                             # Total: ~ 2.2 TB (download: 438 GB)
     bfd/                                   # ~ 1.7 TB (download: 271.6 GB)
         # 6 files.
