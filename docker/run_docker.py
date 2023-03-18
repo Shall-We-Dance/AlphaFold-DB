@@ -146,7 +146,7 @@ def main(argv):
 
   # Path to the Uniclust30 database for use by HHblits.
   uniclust30_database_path = os.path.join(
-      FLAGS.data_dir, 'uniclust30', 'uniclust30','UniRef30_2021_03')
+      FLAGS.data_dir, 'uniref30','UniRef30_2022_02_hhsuite')
 
   # Path to the PDB70 database for use by HHsearch.
   pdb70_database_path = os.path.join(FLAGS.data_dir, 'pdb70', 'pdb70')
@@ -199,7 +199,7 @@ def main(argv):
     database_paths.append(('small_bfd_database_path', small_bfd_database_path))
   else:
     database_paths.extend([
-        ('uniclust30_database_path', uniclust30_database_path),
+        ('uniref30_database_path', uniref30_database_path),
         ('bfd_database_path', bfd_database_path),
     ])
   for name, path in database_paths:
