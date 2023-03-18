@@ -89,8 +89,8 @@ $DOWNLOAD_DIR/                             # Total: ~ 2.4 TB (download: ~510 GB)
         pdb_seqres.txt
     small_bfd/                             # ~ 17 GB (download: 9.6 GB)
         bfd-first_non_consensus_sequences.fasta
-    uniclust30/                            # ~ 206 GB (download: 46 GB)
-        uniclust30_2021_03/
+    uniref30/                            # ~ 206 GB (download: 46 GB)
+        uniref30_2022_02/
             # 13 files.
     uniprot/                               # ~ 98.3 GB (download: 49 GB)
         uniprot.fasta
