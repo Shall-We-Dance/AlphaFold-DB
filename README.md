@@ -33,8 +33,9 @@ git clone https://github.com/Shall-We-Dance/AlphaFold-DB.git
 
 Get the alphafold code.
 
-```
-git clone https://github.com/deepmind/alphafold.git
+```sh
+wget https://github.com/deepmind/alphafold/archive/refs/tags/v2.3.1.zip
+unzip v2.3.1.zip
 ```
 
 Then, copy the script into it.
