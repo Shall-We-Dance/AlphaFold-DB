@@ -2,6 +2,8 @@
 
 To use this version for free, visit [AlphaFold@LNSGroup](http://neuralmachine.cc:8080)
 
+**Update 03/18/23: To Match AlphaFold v2.3.1**
+
 ---
 
 Fix Database problem for [AlphaFold](https://github.com/deepmind/alphafold).
