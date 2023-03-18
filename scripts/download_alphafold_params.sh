@@ -34,7 +34,7 @@ ROOT_DIR="${DOWNLOAD_DIR}/params"
 # V1
 # SOURCE_URL="https://storage.googleapis.com/alphafold/alphafold_params_2021-10-27.tar"
 # V2
-SOURCE_URL="https://storage.googleapis.com/alphafold/alphafold_params_2022-03-02.tar"
+SOURCE_URL="https://storage.googleapis.com/alphafold/alphafold_params_2022-12-06.tar"
 BASENAME=$(basename "${SOURCE_URL}")
 
 mkdir --parents "${ROOT_DIR}"
