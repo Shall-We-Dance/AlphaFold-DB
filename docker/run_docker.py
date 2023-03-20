@@ -144,9 +144,9 @@ def main(argv):
   small_bfd_database_path = os.path.join(
       FLAGS.data_dir, 'small_bfd', 'bfd-first_non_consensus_sequences.fasta')
 
-  # Path to the Uniclust30 database for use by HHblits.
-  uniclust30_database_path = os.path.join(
-      FLAGS.data_dir, 'uniref30','UniRef30_2022_02_hhsuite')
+  # Path to the Uniref30 database for use by HHblits.
+  uniref30_database_path = os.path.join(
+      FLAGS.data_dir, 'uniref30','UniRef30_2022_02')
 
   # Path to the PDB70 database for use by HHsearch.
   pdb70_database_path = os.path.join(FLAGS.data_dir, 'pdb70', 'pdb70')
