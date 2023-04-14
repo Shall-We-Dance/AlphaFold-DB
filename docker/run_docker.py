@@ -28,12 +28,15 @@ from docker import types
 
 flags.DEFINE_bool(
     'use_gpu', True, 'Enable NVIDIA runtime to run with GPUs.')
-flags.DEFINE_boolean(
-    'run_relax', True,
-    'Whether to run the final relaxation step on the predicted models. Turning '
-    'relax off might result in predictions with distracting stereochemical '
-    'violations but might help in case you are having issues with the '
-    'relaxation stage.')
+flags.DEFINE_enum('models_to_relax', 'best', ['best', 'all', 'none'],
+                  'The models to run the final relaxation step on. '
+                  'If `all`, all models are relaxed, which may be time '
+                  'consuming. If `best`, only the most confident model is '
+                  'relaxed. If `none`, relaxation is not run. Turning off '
+                  'relaxation might result in predictions with '
+                  'distracting stereochemical violations but might help '
+                  'in case you are having issues with the relaxation '
+                  'stage.')
 flags.DEFINE_bool(
     'enable_gpu_relax', True, 'Run relax on GPU if GPU is enabled.')
 flags.DEFINE_string(
@@ -67,7 +70,7 @@ flags.DEFINE_enum(
     ['monomer', 'monomer_casp14', 'monomer_ptm', 'multimer'],
     'Choose preset model configuration - the monomer model, the monomer model '
     'with extra ensembling, monomer model with pTM head, or multimer model')
-flags.DEFINE_integer('num_multimer_predictions_per_model', 5, 'How many '
+flags.DEFINE_integer('num_multimer_predictions_per_model', 1, 'How many '
                      'predictions (each with a different random seed) will be '
                      'generated per model. E.g. if this is 2 and there are 5 '
                      'models then there will be 10 predictions per input. '
@@ -221,7 +224,7 @@ def main(argv):
       f'--benchmark={FLAGS.benchmark}',
       f'--use_precomputed_msas={FLAGS.use_precomputed_msas}',
       f'--num_multimer_predictions_per_model={FLAGS.num_multimer_predictions_per_model}',
-      f'--run_relax={FLAGS.run_relax}',
+      f'--models_to_relax={FLAGS.models_to_relax}',
       f'--use_gpu_relax={use_gpu_relax}',
       '--logtostderr',
   ])
