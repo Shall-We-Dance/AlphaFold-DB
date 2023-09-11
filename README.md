@@ -1,7 +1,5 @@
 # AlphaFold-DB
 
-To use this version for free, visit [AlphaFold@LNSGroup](https://alphafold.lnsgroup.cc:5001)
-
 **Update 04/14/23: To Match AlphaFold v2.3.2**
 
 **Update 03/18/23: To Match AlphaFold v2.3.1**
